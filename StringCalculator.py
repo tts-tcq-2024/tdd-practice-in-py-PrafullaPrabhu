@@ -1,5 +1,5 @@
 def add(inp):
-  return -1
+  return None
   # if not inp:
   #   return 0
   
