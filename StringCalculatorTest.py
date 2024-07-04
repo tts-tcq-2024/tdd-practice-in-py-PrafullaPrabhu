@@ -5,8 +5,8 @@ class TestStringCalculator(unittest.TestCase):
         def test_expectZeroForEmptyInput(self):
                 self.assertEqual(add(""), 0)
                 
-        # def expectZeroForSingleZero(self):
-        #         self.assertEqual(add("0"), 0)
+        def test_expectZeroForSingleZero(self):
+                self.assertEqual(add("0"), 0)
                 
         # def expectSumForTwoNumberst(self):
         #         self.assertEqual(add("1,2"), 3)
