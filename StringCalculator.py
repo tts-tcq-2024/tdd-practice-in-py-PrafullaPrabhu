@@ -1,3 +1,3 @@
 def add(inp):
-  return None
+  return -1
   
