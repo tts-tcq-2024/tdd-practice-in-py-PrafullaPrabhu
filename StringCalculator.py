@@ -35,6 +35,10 @@ def add_items_to_list(negatives, positives, current_number, is_negative):
 def validate_list_items(positives, negatives):
     if negatives:
         raise_exception(negatives)
+    return list_below_1000(positives)
+
+
+def list_below_1000(positives):
     return [num for num in positives if num <= 1000]
 
 
