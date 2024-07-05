@@ -1,3 +1,8 @@
+class NegativeNumberException(Exception):
+    def __init__(self, negative_numbers):
+        super().__init__(f"negatives not allowed: {negative_numbers}")
+
+
 def add(inp):
     if not inp:
         return 0
@@ -15,7 +20,8 @@ def extract_numbers_from_string(input_string):
     positives, negatives = [], []
     current_number, is_negative = '', False
     for char in input_string:
-        negatives, positives, current_number, is_negative = validate_character(char, current_number, negatives, positives, is_negative)
+        negatives, positives, current_number, is_negative = validate_character(char, current_number, negatives,
+                                                                               positives, is_negative)
     if current_number:
         add_items_to_list(negatives, positives, current_number, is_negative)
     return positives, negatives
@@ -30,30 +36,32 @@ def add_items_to_list(negatives, positives, current_number, is_negative):
 def validate_list_items(positives, negatives):
     if negatives:
         raise NegativeNumberException(negatives)
-    filtered_numbers = [num for num in positives if num <= 1000]
-    return filtered_numbers
+    return [num for num in positives if num <= 1000]
 
 
 def validate_character(char, current_number, negatives, positives, is_negative):
-    if char.isdigit() or (char == '-' and not current_number):
-        current_number, is_negative = check_character_type(char, current_number, is_negative)
-    else:
-        if current_number:
-            add_items_to_list(negatives, positives, current_number, is_negative)
-        current_number = ''
-        is_negative = False
+    char_type_handlers = {'digit': handle_digit, 'minus': handle_minus, 'default': handle_default}
+    char_type = 'digit' if char.isdigit() else 'minus' if char == '-' else 'default'
+    current_number, is_negative = char_type_handlers[char_type](current_number, is_negative, char)
+
+    if not char.isdigit() and char != '-':
+        negatives, positives, current_number, is_negative = handle_non_digits(current_number, negatives, positives, is_negative)
     return negatives, positives, current_number, is_negative
 
 
-def check_character_type(char, current_number, is_negative):
-    if char.isdigit():
-        current_number += char
-    elif char == '-' and not current_number:
-        is_negative = True
+def handle_non_digits(current_number, negatives, positives, is_negative):
+    if current_number:
+        add_items_to_list(negatives, positives, current_number, is_negative)
+    current_number, is_negative = '', False
+    return negatives, positives, current_number, is_negative
+
+def handle_digit(current_number, is_negative, char):
+    return current_number + char, is_negative
+
+
+def handle_minus(current_number, is_negative, char):
+    return current_number, True
+
+
+def handle_default(current_number, is_negative, char):
     return current_number, is_negative
-
-
-class NegativeNumberException(Exception):
-    def __init__(self, negative_numbers):
-        super().__init__(f"negatives not allowed: {negative_numbers}")
-
