@@ -1,6 +1,5 @@
 class NegativeNumberException(Exception):
-    def __init__(self, negative_numbers):
-        super().__init__(f"negatives not allowed: {negative_numbers}")
+    pass
 
 
 def add(inp):
@@ -35,7 +34,7 @@ def add_items_to_list(negatives, positives, current_number, is_negative):
 
 def validate_list_items(positives, negatives):
     if negatives:
-        raise NegativeNumberException(negatives)
+        raise NegativeNumberException(f"negatives not allowed: {negatives}")
     return [num for num in positives if num <= 1000]
 
 
