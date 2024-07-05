@@ -34,8 +34,12 @@ def add_items_to_list(negatives, positives, current_number, is_negative):
 
 def validate_list_items(positives, negatives):
     if negatives:
-        raise NegativeNumberException(f"negatives not allowed: {negatives}")
+        raise_exception(negatives)
     return [num for num in positives if num <= 1000]
+
+
+def raise_exception(negatives):
+    raise NegativeNumberException(f"negatives not allowed: {negatives}")
 
 
 def validate_character(char, current_number, negatives, positives, is_negative):
