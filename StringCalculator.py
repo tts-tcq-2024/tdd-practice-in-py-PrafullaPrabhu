@@ -50,13 +50,17 @@ def validate_character(char, current_number, negatives, positives, is_negative):
     char_type_handlers = {'digit': handle_digit, 'minus': handle_minus, 'default': handle_default}
     char_type = 'digit' if char.isdigit() else 'minus' if char == '-' else 'default'
     current_number, is_negative = char_type_handlers[char_type](current_number, is_negative, char)
-
-    if not char.isdigit() and char != '-':
-        negatives, positives, current_number, is_negative = handle_non_digits(current_number, negatives, positives, is_negative)
+    negatives, positives, current_number, is_negative = handle_non_digits(char, current_number, negatives, positives, is_negative)
     return negatives, positives, current_number, is_negative
 
 
-def handle_non_digits(current_number, negatives, positives, is_negative):
+def handle_non_digits(char, current_number, negatives, positives, is_negative):
+    if not char.isdigit() and char != '-':
+        negatives, positives, current_number, is_negative = perform_additional_operations(negatives, positives, current_number, is_negative)
+    return negatives, positives, current_number, is_negative
+
+
+def perform_additional_operations(negatives, positives, current_number, is_negative):
     if current_number:
         add_items_to_list(negatives, positives, current_number, is_negative)
     current_number, is_negative = '', False
